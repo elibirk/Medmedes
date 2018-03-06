@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.spec.medmedes.MainActivity"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <!--welcome message-->
+        <TextView
+            android:id="@+id/welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Hello! \nHow are you doing today?"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"/>
+
+        <!--current glucose-->
+        <TextView
+            android:id="@+id/tv_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Glucose: "
+            android:textSize="25sp"
+            android:layout_marginTop="30sp"
+            android:layout_below="@id/welcome"/>
+
+        <EditText
+            android:id="@+id/et_current"
+            android:inputType="number"
+            android:layout_width="400sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/welcome"
+            android:layout_alignBaseline="@id/tv_current"
+            android:layout_toEndOf="@id/tv_current"
+            android:layout_toRightOf="@id/tv_current"/>
+
+        <!--button to submit glucose-->
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Submit Glucose"
+            android:layout_below="@id/tv_current"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:onClick="Submit" />
+
+        <!--show average-->
+        <TextView
+            android:id="@+id/tv_avg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This month's average: "
+            android:textSize="25sp"
+            android:layout_marginTop="30sp"
+            android:layout_below="@id/btn_submit"/>
+
+        <TextView
+            android:id="@+id/tv_avg_num"
+            android:layout_width="400sp"
+            android:text="No data"
+            android:textSize="25sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_current"
+            android:layout_alignBaseline="@id/tv_avg"
+            android:layout_toEndOf="@id/tv_avg"
+            android:layout_toRightOf="@id/tv_avg"/>
+
+        <!--horizontal layout to hold buttons-->
+        <LinearLayout
+            android:layout_below="@id/tv_avg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <!--glucose history button-->
+            <Button
+                android:id="@+id/btn_GHist"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="Glucose History"
+                android:textSize="20sp"
+                android:onClick="GHist"/>
+
+            <!--medicine reminder button-->
+            <Button
+                android:id="@+id/btn_meds"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Medicine Reminders"
+                android:textSize="20sp"
+                android:onClick="MRemind"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

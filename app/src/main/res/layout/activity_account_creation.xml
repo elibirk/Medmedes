@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.spec.medmedes3.AccountCreation">
+
+    <!--dheader for the name-->
+    <TextView
+        android:id="@+id/acct_header"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MedMedes"
+        android:textSize="40sp"
+        android:textColor="@color/colorPrimary"/>
+
+
+    <!--scrollview in case info gets long and/or keyboard covers things-->
+    <ScrollView
+        android:id="@+id/acct_scroll"
+        android:layout_below="@id/acct_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--relative layout to hold our content-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--basic welcome message. information/warnings about attempted creation will appear here-->
+            <TextView
+                android:id="@+id/welcome"
+                android:text="Welcome to MedMedes. Please create an account or login below."
+                android:textSize="24sp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <!-- USERNAME TextView & EditText -->
+            <TextView
+                android:id="@+id/tv_UserName"
+                android:layout_below="@id/welcome"
+                android:text="Username:"
+                android:textSize="24sp"
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/et_UserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/tv_UserName"
+                android:layout_toRightOf="@id/tv_UserName"
+                android:layout_alignBaseline="@+id/tv_UserName"
+                android:layout_alignBottom="@+id/tv_UserName"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <!-- PASSWORD will not be used for now, but will look nice for UI reasons
+            and could be added later.-->
+            <!-- PASSWORD TextViews & EditText -->
+            <TextView
+                android:id="@+id/tv_Password"
+                android:layout_below="@id/tv_UserName"
+                android:text="Password:"
+                android:textSize="24sp"
+                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/et_Password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/tv_Password"
+                android:layout_toRightOf="@id/tv_Password"
+                android:layout_alignBaseline="@+id/tv_Password"
+                android:layout_alignBottom="@+id/tv_Password"
+                android:ems="10"
+                android:inputType="textPassword" />
+
+            <!-- PASSWORD2 TextViews & EditText-->
+            <TextView
+                android:id="@+id/tv_Password2"
+                android:layout_below="@id/tv_Password"
+                android:text="Confirm Password:"
+                android:textSize="24sp"
+                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/et_Password2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/tv_Password2"
+                android:layout_toRightOf="@id/tv_Password2"
+                android:layout_alignBaseline="@+id/tv_Password2"
+                android:layout_alignBottom="@+id/tv_Password2"
+                android:ems="10"
+                android:inputType="textPassword" />
+
+
+            <!--Button for creating account-->
+            <Button
+                android:id="@+id/btn_make_request"
+                android:layout_below="@id/tv_Password2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Create Account"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:textSize="15sp"
+                android:onClick="CreateAccount"/>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

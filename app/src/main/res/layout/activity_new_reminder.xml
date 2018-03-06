@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="15dp"
+    android:layout_marginLeft="15dp"
+    android:orientation="vertical"
+    tools:context="com.example.spec.medmedes3.NewReminder">
+
+    <!--instructions for user-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"
+        android:text="Type the medicine name below, and then press the 'ADD REMINDER' button to add a reminder: "/>
+
+    <!--med name-->
+    <EditText
+        android:id="@+id/newMedicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--submit button-->
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/newRem"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:text="Add reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

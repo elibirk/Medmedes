@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "878808580393",
+    "firebase_url": "https://medmedes3.firebaseio.com",
+    "project_id": "medmedes3",
+    "storage_bucket": "medmedes3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878808580393:android:16560b04b1202adc",
+        "android_client_info": {
+          "package_name": "com.example.spec.medmedes3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "878808580393-luboqaju1lfkqe7ulfmoii89msvt76pm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.spec.medmedes3",
+            "certificate_hash": "ba3fba67b39706975ed34b759b6a46a7227aa1cc"
+          }
+        },
+        {
+          "client_id": "878808580393-rdr0qdv7lta6sf1kfrpqp6p1nji17lvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOVGVIOFFszha9OMQK9-P1GzDdoGYX970"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "878808580393-rdr0qdv7lta6sf1kfrpqp6p1nji17lvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

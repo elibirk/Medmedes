@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Medmedes3</string>
+    <string name="title_activity_glucose_history">GlucoseHistory</string>
+</resources>
