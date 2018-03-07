@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        avg = (TextView) findViewById(R.id.tv_avg_num);
+        avg = findViewById(R.id.tv_avg_num);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -82,14 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
                     count++;
                     j++;
-                }
+                }//end for
 
                 Log.d("averageafter", String.valueOf(average));
 
                 //don't divide by 0
                 if(count != 0) {
                     actualaverage = average / count;
-                }
+                }//end if
 
                 //inform user of average
                 avg.setText(String.valueOf(actualaverage));
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
             toastMessage.setTextColor(Color.WHITE);
             toast.show();
-        }
+        }//end else
 
 
         //Determines if the username exists
@@ -195,11 +195,11 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("DATABASE_USERNAME", dataSnapshot.child("UserDetails" + i).child("username").getValue(String.class));
 
                             user_count = i;
-                        }
+                        }//end if
 
-                    }
+                    }//end for
 
-                }
+                }//end else
 
             }//end if username_exists
             @Override
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 //  Log.w("Canceled", "loadPost:onCancelled", databaseError.toException());
                 // ...
 
-            }
+            }//end onCancelled
 
         };//end onDataChanged
 
@@ -270,6 +270,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
         //TODO: replace with updated UI for logged in user? test first
-    }
+    }//end onStart
 
 }//end class
