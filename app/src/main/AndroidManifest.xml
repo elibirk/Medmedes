@@ -22,7 +22,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MRemind" />
         <activity android:name=".NewReminder" />
-        <activity android:name=".AlarmReceiver"></activity>
+        <activity android:name=".AccountCreation" />
     </application>
 
 </manifest>

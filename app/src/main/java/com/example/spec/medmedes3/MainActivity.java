@@ -4,11 +4,7 @@ package com.example.spec.medmedes3;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import java.util.Calendar;
 
-import android.icu.text.StringPrepParseException;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences pref;
 
-    TextView welcome;
+    TextView welcome; //welcome textview to hold the user's name
 
-    DatabaseReference myRef;
+    //DatabaseReference myRef;
 
     int user_count = 1;
 
@@ -41,15 +37,15 @@ public class MainActivity extends AppCompatActivity {
 
     int entrynum;
 
-    int average;
+    int average; //number value to store total glucose levels added together
 
-    int actualaverage;
+    int actualaverage; //glucose levels divided by # of glucose entries to get an average
 
-    int count;
+    int count; //# of glucose entries used to calculate an average
 
-    TextView avg;
+    TextView avg; //textview to show user the average glucose level
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth; //reference to Firebase database for user authentication
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //get database reference
-        //TODO: Old?
-        myRef = FirebaseDatabase.getInstance().getReference("User");
+        //TODO: Remove and replace database references with updated code
+        //myRef = FirebaseDatabase.getInstance().getReference("User");
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -88,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //don't divide by 0
                 if(count != 0) {
-                    actualaverage = average / count;
+                    actualaverage = average / count; //calculates the total average
                 }//end if
 
                 //inform user of average
@@ -101,10 +97,10 @@ public class MainActivity extends AppCompatActivity {
             }//end onCalcelled
         }; //end listener
 
-        myRef.addValueEventListener(postListener);
+        //myRef.addValueEventListener(postListener);
 
-        myRef.child("dummy").setValue("");
-        //readd fake value to trigger listener to calculate average
+        //myRef.child("dummy").setValue("");
+        //read fake value to trigger listener to calculate average
 
 
 
@@ -128,50 +124,58 @@ public class MainActivity extends AppCompatActivity {
 
 
         //set welcome text with the user's name to make them feel more comfortable with the app
-        welcome = (TextView) findViewById(R.id.welcome);
+        welcome = findViewById(R.id.welcome);
 
-        welcome.setText("Welcome " + uname + "! \nHow are you doing today?");
+        welcome.setText(uname + "!\n" + getString(R.string.welcome_message));
 
     }//end onCreate
 
 
     public void Submit(View v){
 
-        final EditText glucose = (EditText) findViewById(R.id.et_current);
+        final EditText glucose = findViewById(R.id.et_current);
 
         //get the glucose level, then clear the box so the user knows it went through
         String glustr = glucose.getText().toString();
-        glucose.setText("");
-        Toast.makeText(this, "Submission Complete", Toast.LENGTH_SHORT).show();
 
         //tell the user how they're doing
         //color coded text since we can't color code the box
-        if(Integer.parseInt(glustr)>180){
-            Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is very high! Be careful",
-                    Toast.LENGTH_LONG);
-            TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
-            toastMessage.setTextColor(Color.RED);
-            toast.show();
-        } else if(Integer.parseInt(glustr)>130){
-            Toast toast = Toast.makeText(getApplicationContext(), "Your glucose seems high, " +
-                            "but it's a normal level if you've eaten recently.",
-                    Toast.LENGTH_LONG);
-            TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
-            toastMessage.setTextColor(Color.RED);
-            toast.show();
-        } else if (Integer.parseInt(glustr)<80){
-            Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is abnormally low! Be careful",
-                    Toast.LENGTH_LONG);
-            TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
-            toastMessage.setTextColor(Color.RED);
-            toast.show();
-        } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is normal. Congrats!",
-                    Toast.LENGTH_LONG);
-            TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
-            toastMessage.setTextColor(Color.WHITE);
-            toast.show();
-        }//end else
+        if(glustr.equals("")) {
+            //do not try to enter if accidentally pressed submit button
+        } else { //otherwise, parse the data
+            if (Integer.parseInt(glustr) > 180) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is very high! Be careful",
+                        Toast.LENGTH_LONG);
+                TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
+                toastMessage.setTextColor(Color.RED);
+                toast.show();
+            } else if (Integer.parseInt(glustr) > 130) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Your glucose seems high, " +
+                                "but it's a normal level if you've eaten recently.",
+                        Toast.LENGTH_LONG);
+                TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
+                toastMessage.setTextColor(Color.RED);
+                toast.show();
+            } else if (Integer.parseInt(glustr) < 80) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is abnormally low! Be careful",
+                        Toast.LENGTH_LONG);
+                TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
+                toastMessage.setTextColor(Color.RED);
+                toast.show();
+            } else {
+                Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is normal. Congrats!",
+                        Toast.LENGTH_LONG);
+                TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
+                toastMessage.setTextColor(Color.WHITE);
+                toast.show();
+            }//end else
+
+            //TODO: move database entering here
+
+            //clear the entrybox and notify user of success
+            glucose.setText("");
+            Toast.makeText(this, "Submission Complete", Toast.LENGTH_SHORT).show();
+        }//end no content else
 
 
         //Determines if the username exists
@@ -212,8 +216,9 @@ public class MainActivity extends AppCompatActivity {
 
         };//end onDataChanged
 
-        myRef.addListenerForSingleValueEvent(userListener);
+        //myRef.addListenerForSingleValueEvent(userListener);
 
+        //TODO: fix date issues, get actual month instead of May
         GregorianCalendar c = new GregorianCalendar();
 
         //Hardcoded month bc conversion is incorrect (gives december), would fix later
@@ -235,9 +240,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TASK", Integer.toString(task_count));
         Log.d("USERCOUNT", Integer.toString(user_count));
 
-        myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).setValue("");
-        myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).child("date").setValue(date);
-        myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).child("level").setValue(glustr);
+        //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).setValue("");
+        //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).child("date").setValue(date);
+        //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).child("level").setValue(glustr);
 
         //increase number of entries by one
         entrynum++;

@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Medmedes3</string>
+    <string name="app_name">Medmedes</string>
     <string name="title_activity_glucose_history">GlucoseHistory</string>
+    <string name="welcome_message">Welcome!\nHow are you today?</string>
 </resources>

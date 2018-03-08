@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class AccountCreation extends AppCompatActivity {
 
-    DatabaseReference myRef;
+    //DatabaseReference myRef;
 
     SharedPreferences prefs;
 
@@ -82,8 +82,8 @@ public class AccountCreation extends AppCompatActivity {
                         !(password1.getText().toString().equals(""))&&
                         password1.getText().toString().equals(password2.getText().toString())) {
 
-                    myRef.child("User").child("UserDetails" + i).child("username").setValue(username.getText().toString());
-                    myRef.child("User").child("UserDetails" + i).child("password").setValue(password1.getText().toString());
+                    //myRef.child("User").child("UserDetails" + i).child("username").setValue(username.getText().toString());
+                    //myRef.child("User").child("UserDetails" + i).child("password").setValue(password1.getText().toString());
 
                 }
 
@@ -96,7 +96,7 @@ public class AccountCreation extends AppCompatActivity {
                 // ...
             }
         };
-        myRef.addValueEventListener(userListener);
+        //myRef.addValueEventListener(userListener);
 
 
         //check content
