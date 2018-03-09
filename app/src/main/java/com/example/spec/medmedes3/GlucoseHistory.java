@@ -52,7 +52,7 @@ public class GlucoseHistory extends AppCompatActivity {
         //essentially search database & populate the page, doing this in a loop for every result
         //we can probably set this up like the ViewAdapter hw if we want more efficiency
         //but the priority right now is completion, not perfection
-        activity_search_tasks = (LinearLayout) findViewById(R.id.LL_glucose);
+        activity_search_tasks = findViewById(R.id.LL_glucose);
 
         //access messages part of database
         myRef = FirebaseDatabase.getInstance().getReference("User");
@@ -85,14 +85,14 @@ public class GlucoseHistory extends AppCompatActivity {
                         //inflate the box
                         convertView = inflater.inflate(R.layout.box, null);
                         activity_search_tasks.addView(convertView);
-                        RelativeLayout rl = (RelativeLayout) convertView.findViewById(R.id.box_task_layout);
+                        RelativeLayout rl = convertView.findViewById(R.id.box_task_layout);
 
                         //set level
-                        TextView date = (TextView) convertView.findViewById(R.id.tv_date);
+                        TextView date = convertView.findViewById(R.id.tv_date);
                         date.setText(dataSnapshot.child("UserDetails"+i).child("Entries").child("entry"+j).child("date").getValue(String.class));
 
                         //set level
-                        TextView level = (TextView) convertView.findViewById(R.id.tv_level);
+                        TextView level = convertView.findViewById(R.id.tv_level);
                         String lvl = dataSnapshot.child("UserDetails"+i).child("Entries").child("entry"+j).child("level").getValue(String.class);
 
                         //choose color based on how healthy the level is

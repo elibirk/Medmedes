@@ -1,14 +1,6 @@
 package com.example.spec.medmedes3;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,8 +48,8 @@ public class MRemind extends AppCompatActivity {
         myRef = FirebaseDatabase.getInstance().getReference("User");
 
 
-        activity_search_tasks = (LinearLayout) findViewById(R.id.reminders);
-        newMedicine = (EditText) findViewById(R.id.newMedicine);
+        activity_search_tasks = findViewById(R.id.reminders);
+        newMedicine = findViewById(R.id.newMedicine);
 
         listener();
 
@@ -91,14 +81,14 @@ public class MRemind extends AppCompatActivity {
                         //inflate the box
                         convertView = inflater.inflate(R.layout.box, null);
                         activity_search_tasks.addView(convertView);
-                        RelativeLayout rl = (RelativeLayout) convertView.findViewById(R.id.box_task_layout);
+                        RelativeLayout rl = convertView.findViewById(R.id.box_task_layout);
 
                         //set level
-                        TextView date = (TextView) convertView.findViewById(R.id.tv_date);
+                        TextView date = convertView.findViewById(R.id.tv_date);
                         date.setText(dataSnapshot.child("UserDetails"+i).child("Reminders").child("reminder"+j).child("date").getValue(String.class));
 
                         //set level
-                        TextView name = (TextView) convertView.findViewById(R.id.tv_level);
+                        TextView name = convertView.findViewById(R.id.tv_level);
                         String lvl = dataSnapshot.child("UserDetails"+i).child("Reminders").child("reminder"+j).child("name").getValue(String.class);
 
 

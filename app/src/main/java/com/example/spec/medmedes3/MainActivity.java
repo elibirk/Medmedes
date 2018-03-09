@@ -18,8 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.GregorianCalendar;
 
@@ -37,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     int entrynum;
 
-    int average; //number value to store total glucose levels added together
+    int totalOfEntries; //number value to store total glucose levels added together
 
-    int actualaverage; //glucose levels divided by # of glucose entries to get an average
+    int average; //glucose levels divided by # of glucose entries to get an average
 
     int count; //# of glucose entries used to calculate an average
 
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 //reinitialize average and count
-                average = 0;
+                totalOfEntries = 0;
                 count = 0;
 
                 //go through all of them and calculate average
@@ -73,22 +71,22 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("j", String.valueOf(j));
                     Log.d("ucount", String.valueOf(user_count));
                     Log.d("count", String.valueOf(count));
-                    Log.d("average", String.valueOf(average));
-                    average = average + Integer.parseInt(dataSnapshot.child("UserDetails" + user_count).child("Entries").child("entry" + String.valueOf(j)).child("level").getValue(String.class));
+                    Log.d("average", String.valueOf(totalOfEntries));
+                    totalOfEntries = totalOfEntries + Integer.parseInt(dataSnapshot.child("UserDetails" + user_count).child("Entries").child("entry" + String.valueOf(j)).child("level").getValue(String.class));
 
                     count++;
                     j++;
                 }//end for
 
-                Log.d("averageafter", String.valueOf(average));
+                Log.d("averageafter", String.valueOf(totalOfEntries));
 
                 //don't divide by 0
                 if(count != 0) {
-                    actualaverage = average / count; //calculates the total average
+                    average = totalOfEntries / count; //calculates the total average
                 }//end if
 
                 //inform user of average
-                avg.setText(String.valueOf(actualaverage));
+                avg.setText(String.valueOf(average));
             }//end on DataChanged
 
             @Override
@@ -102,15 +100,12 @@ public class MainActivity extends AppCompatActivity {
         //myRef.child("dummy").setValue("");
         //read fake value to trigger listener to calculate average
 
-
-
         //Get preferences to see if a username exists
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         //get username and number of entries
         String uname = pref.getString("username", "");
         entrynum = pref.getInt("entrynum", 1);
-
 
         Log.d("uname", uname);
         if(uname.equals("")){
@@ -126,7 +121,10 @@ public class MainActivity extends AppCompatActivity {
         //set welcome text with the user's name to make them feel more comfortable with the app
         welcome = findViewById(R.id.welcome);
 
-        welcome.setText(uname + "!\n" + getString(R.string.welcome_message));
+        //get welcome message, but input username
+        //using string formatting allows for dynamic translatable strings
+        String text = getResources().getString(R.string.welcome_message, uname);
+        welcome.setText(text);
 
     }//end onCreate
 
@@ -140,32 +138,31 @@ public class MainActivity extends AppCompatActivity {
 
         //tell the user how they're doing
         //color coded text since we can't color code the box
-        if(glustr.equals("")) {
-            //do not try to enter if accidentally pressed submit button
-        } else { //otherwise, parse the data
+        if(!glustr.equals("")) { //do not try to enter if accidentally pressed submit button
+            // otherwise, parse the data
             if (Integer.parseInt(glustr) > 180) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is very high! Be careful",
                         Toast.LENGTH_LONG);
-                TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
+                TextView toastMessage = toast.getView().findViewById(android.R.id.message);
                 toastMessage.setTextColor(Color.RED);
                 toast.show();
             } else if (Integer.parseInt(glustr) > 130) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Your glucose seems high, " +
                                 "but it's a normal level if you've eaten recently.",
                         Toast.LENGTH_LONG);
-                TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
+                TextView toastMessage = toast.getView().findViewById(android.R.id.message);
                 toastMessage.setTextColor(Color.RED);
                 toast.show();
             } else if (Integer.parseInt(glustr) < 80) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is abnormally low! Be careful",
                         Toast.LENGTH_LONG);
-                TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
+                TextView toastMessage = toast.getView().findViewById(android.R.id.message);
                 toastMessage.setTextColor(Color.RED);
                 toast.show();
             } else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is normal. Congrats!",
                         Toast.LENGTH_LONG);
-                TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
+                TextView toastMessage = toast.getView().findViewById(android.R.id.message);
                 toastMessage.setTextColor(Color.WHITE);
                 toast.show();
             }//end else

@@ -46,10 +46,10 @@ public class NewReminder extends AppCompatActivity {
         //access database
         myRef = FirebaseDatabase.getInstance().getReference("User");
 
-        newMedicine = (EditText) findViewById(R.id.newMedicine);
+        newMedicine = findViewById(R.id.newMedicine);
 
         //button code
-        buttonstartSetDialog = (Button) findViewById(R.id.newRem);
+        buttonstartSetDialog = findViewById(R.id.newRem);
         buttonstartSetDialog.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -93,11 +93,11 @@ public class NewReminder extends AppCompatActivity {
             if (calSet.compareTo(calNow) <= 0) {
                 // Today Set time passed, count to tomorrow
                 calSet.add(Calendar.DATE, 1);
-            }
+            }//end if
 
             setAlarm(calSet);
         }
-    };
+    };//end OnTimeSetListener
 
     private void setAlarm(Calendar targetCal) {
 
@@ -154,4 +154,4 @@ AlarmReceiver.setAlarm(this);*/
         startActivity(i);
 
     }//end setAlarm
-}
+}//end NewReminder

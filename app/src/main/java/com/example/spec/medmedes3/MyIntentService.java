@@ -10,8 +10,6 @@ import android.support.v4.app.NotificationManagerCompat;
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
- * <p>
- * helper methods.
  */
 public class MyIntentService extends IntentService {
     Integer NOTIFICATION_ID = 3;

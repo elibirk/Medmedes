@@ -9,13 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class AccountCreation extends AppCompatActivity {
@@ -54,10 +51,10 @@ public class AccountCreation extends AppCompatActivity {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         //grab welcome TV and the edit texts
-        welcome = (TextView) findViewById(R.id.welcome);
-        username = (EditText) findViewById(R.id.et_UserName);
-        password1 = (EditText) findViewById(R.id.et_Password);
-        password2 = (EditText) findViewById(R.id.et_Password2);
+        welcome = findViewById(R.id.welcome);
+        username = findViewById(R.id.et_UserName);
+        password1 = findViewById(R.id.et_Password);
+        password2 = findViewById(R.id.et_Password2);
 
         //by default, assume no username exists since we've gotten to this page
         username_exists = false;
@@ -101,11 +98,11 @@ public class AccountCreation extends AppCompatActivity {
 
         //check content
         if(username.getText().toString().equals("")){
-            welcome.setText("You must enter a username");
+            welcome.setText(R.string.uname_warning);
         } else if(password1.getText().toString().equals("")){
-            welcome.setText("You must enter a password");
+            welcome.setText(R.string.pass_warning);
         } else if(!password1.getText().toString().equals(password2.getText().toString())){
-            welcome.setText("Passwords must match");
+            welcome.setText(R.string.pass_match_warning);
         } else {
             //first put the username into shared preferences
             prefs.edit().remove("username");

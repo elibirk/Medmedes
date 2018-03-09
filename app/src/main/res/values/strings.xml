@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Medmedes</string>
     <string name="title_activity_glucose_history">GlucoseHistory</string>
-    <string name="welcome_message">Welcome!\nHow are you today?</string>
+    <string name="welcome_message">Welcome %1$s!\nHow are you today?</string>
+    <string name="uname_warning">You must enter a username.</string>
+    <string name="pass_warning">You must enter a password.</string>
+    <string name="pass_match_warning">Passwords must be the same.</string>
 </resources>
