@@ -140,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
         //color coded text since we can't color code the box
         if(!glustr.equals("")) { //do not try to enter if accidentally pressed submit button
             // otherwise, parse the data
+
+            //TODO: replace toasts with more static popups, so the user has to click away.
+            //this way it's easier to read and understand, especially since diabetes patients often cant see well
             if (Integer.parseInt(glustr) > 180) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is very high! Be careful",
                         Toast.LENGTH_LONG);
