@@ -16,10 +16,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-import java.util.GregorianCalendar;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     //DatabaseReference myRef;
 
-    int user_count = 1;
+    //int user_count = 1;
 
-    int task_count;
+    //int task_count;
 
     int entrynum;
 
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         //get database reference
         //TODO: Remove and replace database references with updated code
         //myRef = FirebaseDatabase.getInstance().getReference("User");
-
+/*
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -94,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
             }//end onCalcelled
         }; //end listener
+
+        */
 
         //myRef.addValueEventListener(postListener);
 
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Submission Complete", Toast.LENGTH_SHORT).show();
         }//end no content else
 
-
+/*
         //Determines if the username exists
         ValueEventListener userListener = new ValueEventListener() {
 
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }//end else
 
-            }//end if username_exists
+            }//end onDataChange
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Getting Post failed, log a message
@@ -211,31 +211,25 @@ public class MainActivity extends AppCompatActivity {
 
             }//end onCancelled
 
-        };//end onDataChanged
+        };//end userListener
+*/
 
         //myRef.addListenerForSingleValueEvent(userListener);
 
-        //TODO: fix date issues, get actual month instead of May
-        GregorianCalendar c = new GregorianCalendar();
+        //get the date
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        //month is plus one because the Calendar class starts with zero
+        int month = now.get(Calendar.MONTH) + 1;
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
 
-        //Hardcoded month bc conversion is incorrect (gives december), would fix later
-        String monthname = "May";
-        //String monthname = new java.text.SimpleDateFormat("MMMM");
-        //java.text.SimpleDateFormat df3 = new java.text.SimpleDateFormat("MMMM");
-        //String monthname=(String)android.text.format.DateFormat.format("MMMM", 9);
-        //String monthname = c.get(1);
-        //String monthname=(String)android.text.format.DateFormat.format("MMMM", c.get(GregorianCalendar.MONTH) + 5);
-        String date = monthname;
-        date = date + " " + String.valueOf(c.get(GregorianCalendar.DAY_OF_MONTH));
-        date = date + " " + String.valueOf(c.get(GregorianCalendar.YEAR));
-        date = date + " " + String.valueOf(c.get(GregorianCalendar.HOUR_OF_DAY));
-        date = date + ":" + String.valueOf(c.get(GregorianCalendar.MINUTE));
-        date = date + ":" + String.valueOf(c.get(GregorianCalendar.SECOND));
+        //TODO: maybe format whole date as one string? Make sure not to make month/day calendar issue, maybe convert month into string
+        //i.e. 5 Nov 2349 instead of 5/11/2349 or 11/5/2349 to prevent confusion
+        //first see what would be easiest with the database
 
-
-        //put the info into the database
-        Log.d("TASK", Integer.toString(task_count));
-        Log.d("USERCOUNT", Integer.toString(user_count));
+        //TODO: put date & info into the database
 
         //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).setValue("");
         //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).child("date").setValue(date);
