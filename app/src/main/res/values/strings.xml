@@ -1,8 +1,23 @@
 <resources>
     <string name="app_name">Medmedes</string>
-    <string name="title_activity_glucose_history">GlucoseHistory</string>
+    <string name="title_activity_glucose_history">Glucose History</string>
+    <string name="title_activity_mremind">Medicine Reminders</string>
+    <string name="title_activity_new_reminder">New Reminder</string>
     <string name="welcome_message">Welcome %1$s!\nHow are you today?</string>
     <string name="uname_warning">You must enter a username.</string>
     <string name="pass_warning">You must enter a password.</string>
     <string name="pass_match_warning">Passwords must be the same.</string>
+    <string name="account_creation_msg">Welcome to Medmedes. Please create an account below.</string>
+    <string name="account_creation_uname">Username:</string>
+    <string name="account_creation_password">Password:</string>
+    <string name="account_creation_pass_confirm">Confirm Password:</string>
+    <string name="account_creation_submit_button">Create Account</string>
+    <string name="account_creation_known_account">Already have an account? Log in here.</string>
+    <string name="main_current_glucose">Current Glucose: </string>
+    <string name="main_btn_submit">Submit Glucose</string>
+    <string name="main_average">This month\'s average: </string>
+    <string name="main_average_default">No data</string>
+    <string name="mremind_header">Current Reminders:</string>
+    <string name="newremind_instruction_text">Type the medicine name below, and then press the \'ADD REMINDER\' button to add a reminder: </string>
+    <string name="newremind_submit">Add reminder</string>
 </resources>

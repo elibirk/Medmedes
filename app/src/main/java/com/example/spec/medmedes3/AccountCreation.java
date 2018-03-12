@@ -117,6 +117,11 @@ public class AccountCreation extends AppCompatActivity {
 
     }//end CreateAccount
 
+    public void KnownAccount(View v){
+        //TODO: if account is known, then let them log in using similar layout
+        //maybe just hide some stuff
+    }//end KnownAccount
+
     public void onBackPressed() {//deal with backbutton
         //do nothing, that way we can avoid people skipping login
     } //end onBackPressed

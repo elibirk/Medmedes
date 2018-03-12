@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context="com.example.spec.medmedes3.GlucoseHistory"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.spec.medmedes3.MRemind"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,10 +10,11 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
+        <!--Header TextView-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current Reminders:"
+            android:text="@string/mremind_header"
             android:textSize="30sp"/>
 
         <!--Linear layout to hold reminders-->
@@ -27,9 +27,10 @@
 
         </LinearLayout>
 
+        <!--Button to take user to add a new reminder-->
         <Button
             android:id="@+id/startAlarm"
-            android:text="Add reminder"
+            android:text="@string/title_activity_new_reminder"
             android:onClick="addReminder"
             android:textSize="25sp"
             android:layout_marginTop="20dp"

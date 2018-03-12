@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), AccountCreation.class);
 
             startActivity(i);
-        }
+        }//end if
         //We start in MainActivity instead of account creation because most users will usually
         //have usernames saved, so this means less swapping
 

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.spec.medmedes.MainActivity"
+    tools:context="com.example.spec.medmedes3.MainActivity"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
@@ -19,7 +18,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="Hello! \nHow are you doing today?"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:gravity="center"/>
@@ -27,9 +25,10 @@
         <!--current glucose-->
         <TextView
             android:id="@+id/tv_current"
+            android:labelFor="@+id/et_current"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current Glucose: "
+            android:text="@string/main_current_glucose"
             android:textSize="25sp"
             android:layout_marginTop="30sp"
             android:layout_below="@id/welcome"/>
@@ -41,15 +40,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/welcome"
             android:layout_alignBaseline="@id/tv_current"
-            android:layout_toEndOf="@id/tv_current"
-            android:layout_toRightOf="@id/tv_current"/>
+            android:layout_toEndOf="@id/tv_current"/>
 
         <!--button to submit glucose-->
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Submit Glucose"
+            android:text="@string/main_btn_submit"
             android:layout_below="@id/tv_current"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
@@ -61,21 +59,21 @@
             android:id="@+id/tv_avg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This month's average: "
+            android:text="@string/main_average"
             android:textSize="25sp"
             android:layout_marginTop="30sp"
+            android:layout_marginEnd="10dp"
             android:layout_below="@id/btn_submit"/>
 
         <TextView
             android:id="@+id/tv_avg_num"
-            android:layout_width="400sp"
-            android:text="No data"
+            android:layout_width="wrap_content"
+            android:text="@string/main_average_default"
             android:textSize="25sp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_current"
             android:layout_alignBaseline="@id/tv_avg"
-            android:layout_toEndOf="@id/tv_avg"
-            android:layout_toRightOf="@id/tv_avg"/>
+            android:layout_toEndOf="@id/tv_avg"/>
 
         <!--horizontal layout to hold buttons-->
         <LinearLayout
@@ -91,9 +89,8 @@
                 android:id="@+id/btn_GHist"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="Glucose History"
+                android:text="@string/title_activity_glucose_history"
                 android:textSize="20sp"
                 android:onClick="GHist"/>
 
@@ -102,7 +99,7 @@
                 android:id="@+id/btn_meds"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="Medicine Reminders"
+                android:text="@string/title_activity_mremind"
                 android:textSize="20sp"
                 android:onClick="MRemind"/>
 
