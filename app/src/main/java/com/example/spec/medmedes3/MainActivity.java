@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         //myRef.child("dummy").setValue("");
         //read fake value to trigger listener to calculate average
 
+        //TODO: get rid of, will be replaced by onStart
         //Get preferences to see if a username exists
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 

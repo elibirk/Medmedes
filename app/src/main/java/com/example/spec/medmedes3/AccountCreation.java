@@ -3,14 +3,20 @@ package com.example.spec.medmedes3;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -59,6 +65,7 @@ public class AccountCreation extends AppCompatActivity {
         //by default, assume no username exists since we've gotten to this page
         username_exists = false;
 
+        /*OLD CODE
         ValueEventListener userListener = new ValueEventListener() {
 
             @Override
@@ -94,16 +101,44 @@ public class AccountCreation extends AppCompatActivity {
             }
         };
         //myRef.addValueEventListener(userListener);
-
+END OLD CODE*/
 
         //check content
         if(username.getText().toString().equals("")){
+            //TODO: confirm is an email (@)
             welcome.setText(R.string.uname_warning);
         } else if(password1.getText().toString().equals("")){
             welcome.setText(R.string.pass_warning);
         } else if(!password1.getText().toString().equals(password2.getText().toString())){
             welcome.setText(R.string.pass_match_warning);
         } else {
+
+            //place into database
+            mAuth.createUserWithEmailAndPassword(username.getText().toString(), password1.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("DBYES", "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                //updateUI(user);
+                                //TODO: Replace with screen change
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("DBFAIL", "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(AccountCreation.this,"Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                //updateUI(null);
+                                //TODO: Replace
+                            }//end else
+
+                            // ...
+                        }//end onComplere
+                    }); //end createUser
+
+
+            //TODO: Remove once database is functioning
             //first put the username into shared preferences
             prefs.edit().remove("username");
             prefs.edit().putString("username", username.getText().toString()).apply();
@@ -113,13 +148,41 @@ public class AccountCreation extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
             startActivity(i);
-        }
+        }//end else
 
     }//end CreateAccount
 
     public void KnownAccount(View v){
         //TODO: if account is known, then let them log in using similar layout
         //maybe just hide some stuff
+
+        //grab welcome TV and the edit texts
+        welcome = findViewById(R.id.welcome);
+        username = findViewById(R.id.et_UserName);
+        password1 = findViewById(R.id.et_Password);
+
+        mAuth.signInWithEmailAndPassword(username.getText().toString(), password1.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("SIGNINYES", "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                            //TODO: Replace
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("SIGNINFAIL", "signInWithEmail:failure", task.getException());
+                            Toast.makeText(AccountCreation.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                            //TODO: Replace
+                        }//end else
+
+                        // ...
+                    }//end onComplete
+                });//end signIn
     }//end KnownAccount
 
     public void onBackPressed() {//deal with backbutton
