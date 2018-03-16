@@ -62,13 +62,34 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
+            <!--Email edit text and text view-->
+            <TextView
+                android:id="@+id/tv_Email"
+                android:labelFor="@+id/et_Email"
+                android:layout_below="@id/tv_UserName"
+                android:text="@string/account_creation_email"
+                android:textSize="24sp"
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/et_Email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/tv_Email"
+                android:layout_alignBaseline="@+id/tv_Email"
+                android:layout_alignBottom="@+id/tv_Email"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+
             <!-- PASSWORD will not be used for now, but will look nice for UI reasons
             and could be added later.-->
             <!-- PASSWORD TextViews & EditText -->
             <TextView
                 android:id="@+id/tv_Password"
                 android:labelFor="@+id/et_Password"
-                android:layout_below="@id/tv_UserName"
+                android:layout_below="@id/tv_Email"
                 android:text="@string/account_creation_password"
                 android:textSize="24sp"
                 android:layout_marginTop="30dp"

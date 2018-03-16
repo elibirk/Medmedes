@@ -17,21 +17,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 public class AccountCreation extends AppCompatActivity {
 
-    //DatabaseReference myRef;
-
     SharedPreferences prefs;
-
-    boolean username_exists;
 
     TextView welcome;
 
     EditText username;
+
+    EditText email;
 
     EditText password1;
 
@@ -46,7 +41,7 @@ public class AccountCreation extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        //connect to database
+        //OLD connect to database
         //myRef = FirebaseDatabase.getInstance().getReference("message");
     }
 
@@ -58,12 +53,13 @@ public class AccountCreation extends AppCompatActivity {
 
         //grab welcome TV and the edit texts
         welcome = findViewById(R.id.welcome);
+        email = findViewById(R.id.et_Email);
         username = findViewById(R.id.et_UserName);
         password1 = findViewById(R.id.et_Password);
         password2 = findViewById(R.id.et_Password2);
 
         //by default, assume no username exists since we've gotten to this page
-        username_exists = false;
+        //username_exists = false;
 
         /*OLD CODE
         ValueEventListener userListener = new ValueEventListener() {
@@ -103,10 +99,11 @@ public class AccountCreation extends AppCompatActivity {
         //myRef.addValueEventListener(userListener);
 END OLD CODE*/
 
-        //check content
+        //check content, give warnings for mixed/incorrect content
         if(username.getText().toString().equals("")){
-            //TODO: confirm is an email (@)
             welcome.setText(R.string.uname_warning);
+        } else if(email.getText().toString().equals("")){
+            welcome.setText(R.string.email_warning);
         } else if(password1.getText().toString().equals("")){
             welcome.setText(R.string.pass_warning);
         } else if(!password1.getText().toString().equals(password2.getText().toString())){
@@ -134,7 +131,7 @@ END OLD CODE*/
                             }//end else
 
                             // ...
-                        }//end onComplere
+                        }//end onComplete
                     }); //end createUser
 
 
@@ -154,14 +151,14 @@ END OLD CODE*/
 
     public void KnownAccount(View v){
         //TODO: if account is known, then let them log in using similar layout
-        //maybe just hide some stuff
+        //maybe just hide some stuff: username, 'create account', password confirmation
 
         //grab welcome TV and the edit texts
         welcome = findViewById(R.id.welcome);
-        username = findViewById(R.id.et_UserName);
+        email = findViewById(R.id.et_Email);
         password1 = findViewById(R.id.et_Password);
 
-        mAuth.signInWithEmailAndPassword(username.getText().toString(), password1.getText().toString())
+        mAuth.signInWithEmailAndPassword(email.getText().toString(), password1.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
