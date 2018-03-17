@@ -1,11 +1,13 @@
 package com.example.spec.medmedes3;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     TextView avg; //textview to show user the average glucose level
 
     private FirebaseAuth mAuth; //reference to Firebase database for user authentication
+
+    AlertDialog dialog; //AltertDialog builder for dialog popups
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,46 +140,42 @@ public class MainActivity extends AppCompatActivity {
 
         //get the glucose level, then clear the box so the user knows it went through
         String glustr = glucose.getText().toString();
+        glucose.setText("");
 
         //tell the user how they're doing
-        //color coded text since we can't color code the box
         if(!glustr.equals("")) { //do not try to enter if accidentally pressed submit button
             // otherwise, parse the data
 
-            //TODO: replace toasts with more static popups (Dialog class?), so the user has to click away.
-            //this way it's easier to read and understand, especially since diabetes patients often cant see well
+            //prepare our dialog
+            dialog = new AlertDialog.Builder(MainActivity.this).create();
+            //TODO: change the dialog format based on results? (color!) Maybe add 'tips' for improvement?
+            dialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.main_dialog_button),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }//end onClick
+                    });//end setButton
+
+            //change the message depending on the glucose level
+            //dialog used so it's easy to read and understand, especially since diabetes patients often cant see well
             if (Integer.parseInt(glustr) > 180) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is very high! Be careful",
-                        Toast.LENGTH_LONG);
-                TextView toastMessage = toast.getView().findViewById(android.R.id.message);
-                toastMessage.setTextColor(Color.RED);
-                toast.show();
+                dialog.setTitle(getResources().getString(R.string.main_dg_title));
+                dialog.setMessage(getResources().getString(R.string.main_dangerous_glucose));
             } else if (Integer.parseInt(glustr) > 130) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Your glucose seems high, " +
-                                "but it's a normal level if you've eaten recently.",
-                        Toast.LENGTH_LONG);
-                TextView toastMessage = toast.getView().findViewById(android.R.id.message);
-                toastMessage.setTextColor(Color.RED);
-                toast.show();
+                dialog.setTitle(getResources().getString(R.string.main_hg_title));
+                dialog.setMessage(getResources().getString(R.string.main_high_glucose));
             } else if (Integer.parseInt(glustr) < 80) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is abnormally low! Be careful",
-                        Toast.LENGTH_LONG);
-                TextView toastMessage = toast.getView().findViewById(android.R.id.message);
-                toastMessage.setTextColor(Color.RED);
-                toast.show();
+                dialog.setTitle(getResources().getString(R.string.main_lg_title));
+                dialog.setMessage(getResources().getString(R.string.main_low_glucose));
             } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "Your glucose is normal. Congrats!",
-                        Toast.LENGTH_LONG);
-                TextView toastMessage = toast.getView().findViewById(android.R.id.message);
-                toastMessage.setTextColor(Color.WHITE);
-                toast.show();
+                dialog.setTitle(getResources().getString(R.string.main_gg_title));
+                dialog.setMessage(getResources().getString(R.string.main_normal_glucose));
             }//end else
 
-            //TODO: move database entering here
+            //now show our dialog
+            dialog.show();
+            //TODO: move database entering here, notify of database success?
 
-            //clear the entrybox and notify user of success
-            glucose.setText("");
-            Toast.makeText(this, "Submission Complete", Toast.LENGTH_SHORT).show();
         }//end no content else
 
 /*
