@@ -1,7 +1,5 @@
 package com.example.spec.medmedes3;
 
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
@@ -144,28 +142,24 @@ public class MainActivity extends AppCompatActivity {
         if(!glustr.equals("")) { //do not try to enter if accidentally pressed submit button
             // otherwise, parse the data
 
-            //prepare our dialog
-            dialog = new AlertDialog.Builder(MainActivity.this).create();
-            //TODO: change the dialog format based on results? (color!) Maybe add 'tips' for improvement?
-            dialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.main_dialog_button),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }//end onClick
-                    });//end setButton
+            //TODO: Maybe add 'tips' for improvement?
 
             //change the message depending on the glucose level
-            //dialog used so it's easy to read and understand, especially since diabetes patients often cant see well
+            //dialog & color is used so it's easy to read and understand, especially since diabetes patients often cant see well
             if (Integer.parseInt(glustr) > 180) {
+                dialog = new AlertDialog.Builder(MainActivity.this, R.style.badDialog).create();
                 dialog.setTitle(getResources().getString(R.string.main_dg_title));
                 dialog.setMessage(getResources().getString(R.string.main_dangerous_glucose));
             } else if (Integer.parseInt(glustr) > 130) {
+                dialog = new AlertDialog.Builder(MainActivity.this, R.style.warningDialog).create();
                 dialog.setTitle(getResources().getString(R.string.main_hg_title));
                 dialog.setMessage(getResources().getString(R.string.main_high_glucose));
             } else if (Integer.parseInt(glustr) < 80) {
+                dialog = new AlertDialog.Builder(MainActivity.this, R.style.badDialog).create();
                 dialog.setTitle(getResources().getString(R.string.main_lg_title));
                 dialog.setMessage(getResources().getString(R.string.main_low_glucose));
             } else {
+                dialog = new AlertDialog.Builder(MainActivity.this, R.style.goodDialog).create();
                 dialog.setTitle(getResources().getString(R.string.main_gg_title));
                 dialog.setMessage(getResources().getString(R.string.main_normal_glucose));
             }//end else
