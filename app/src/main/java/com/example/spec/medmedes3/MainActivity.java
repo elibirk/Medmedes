@@ -104,12 +104,15 @@ public class MainActivity extends AppCompatActivity {
         //Get preferences to see if a username exists
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
+        //pref.edit().remove("username").commit();
         //get username and number of entries
         String uname = pref.getString("username", "");
         entrynum = pref.getInt("entrynum", 1);
 
         Log.d("uname", uname);
-        if(uname.equals("")){
+
+        if(mAuth.getCurrentUser()==null){
+        //if(uname.equals("")){
             //if the username isn't available, take to account creation
             Intent i = new Intent(getApplicationContext(), AccountCreation.class);
 
