@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -66,8 +67,8 @@ public class AccountCreation extends AppCompatActivity {
             welcome.setText(R.string.uname_warning);
         } else if(email.getText().toString().equals("")){
             welcome.setText(R.string.email_warning);
-        } else if(password1.getText().toString().equals("")){
-            //TODO: require secure passwords
+        } else if(password1.getText().toString().equals("") || password1.getText().toString().length() < 6){
+            //TODO: require more secure passwords?
             welcome.setText(R.string.pass_warning);
         } else if(!password1.getText().toString().equals(password2.getText().toString())){
             welcome.setText(R.string.pass_match_warning);
@@ -86,6 +87,12 @@ public class AccountCreation extends AppCompatActivity {
                                 Log.d("DBYES", "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
 
+                                prefs.edit().putString("username", username.getText().toString()).commit();
+
+                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+
+                                startActivity(i);
+
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("DBFAIL", "createUserWithEmail:failure", task.getException());
@@ -95,15 +102,8 @@ public class AccountCreation extends AppCompatActivity {
 
                             // ...
                         }//end onComplete
-                    }); //end createUser
+            }); //end createUser
 
-            //save username? TODO: remove all prefs
-            //prefs.edit().putString("username", username.getText().toString()).commit();
-
-            //then go ahead and take us to the main menu
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-
-            startActivity(i);
         }//end else
 
     }//end CreateAccount

@@ -6,14 +6,15 @@
     <string name="title_activity_new_reminder">New Reminder</string>
 
     <string name="welcome_message">Welcome %1$s!\nHow are you today?</string>
+
     <string name="uname_warning">You must enter a username.</string>
     <string name="email_warning">You must enter an email address.</string>
-    <string name="pass_warning">You must enter a password.</string>
+    <string name="pass_warning">You must enter a password of at least 6 characters.</string>
     <string name="pass_match_warning">Passwords must be the same.</string>
 
     <string name="account_creation_msg">Welcome to Medmedes. Please create an account below.</string>
-    <string name="account_creation_uname">Username:</string>
-    <string name="account_creation_email">Email: </string>
+    <string name="account_creation_uname">Name:</string>
+    <string name="account_creation_email">Email:</string>
     <string name="account_creation_password">Password:</string>
     <string name="account_creation_pass_confirm">Confirm Password:</string>
     <string name="account_creation_submit_button">Create Account</string>
