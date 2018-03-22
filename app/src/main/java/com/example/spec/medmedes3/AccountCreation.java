@@ -82,12 +82,11 @@ public class AccountCreation extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                //TODO: get this to run? change to onSuccess?
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("DBYES", "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
 
-                                prefs.edit().putString("username", username.getText().toString()).commit();
+                                //TODO: save user's name in database?
 
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
@@ -109,8 +108,7 @@ public class AccountCreation extends AppCompatActivity {
     }//end CreateAccount
 
     public void KnownAccount(View v){
-        //TODO: if account is known, then let them log in using similar layout
-        //maybe just hide some stuff: username, 'create account', password confirmation
+        //TODO: layout change; maybe just hide some stuff: username, 'create account', password confirmation
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 

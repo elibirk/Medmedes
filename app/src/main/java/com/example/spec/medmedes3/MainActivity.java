@@ -23,13 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     TextView welcome; //welcome textview to hold the user's name
 
-    //DatabaseReference myRef;
-
     //int user_count = 1;
 
     //int task_count;
 
-    int entrynum;
+    int entrynum; //number of entries in database, stored in prefs. TODO: move to database or count database entries instead
 
     int totalOfEntries; //number value to store total glucose levels added together
 
@@ -48,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        avg = findViewById(R.id.tv_avg_num);
-
+        //access the database
         mAuth = FirebaseAuth.getInstance();
+
+        //grab the average box so we can quickly calculate that
+        avg = findViewById(R.id.tv_avg_num);
 
         //get database reference
         //TODO: Remove and replace database references with updated code
@@ -100,33 +100,11 @@ public class MainActivity extends AppCompatActivity {
         //myRef.child("dummy").setValue("");
         //read fake value to trigger listener to calculate average
 
-        //TODO: get rid of, will be replaced by onStart
-        //Get preferences to see if a username exists
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //pref.edit().remove("username").commit();
-        //get username and number of entries
-        String uname = pref.getString("username", "");
-        entrynum = pref.getInt("entrynum", 1);
-
-        Log.d("uname", uname);
-
-        if(mAuth.getCurrentUser()==null){
-        //if(uname.equals("")){
-            //if the username isn't available, take to account creation
-            Intent i = new Intent(getApplicationContext(), AccountCreation.class);
-
-            startActivity(i);
-        }//end if
-        //We start in MainActivity instead of account creation because most users will usually
-        //have usernames saved, so this means less swapping
-
-
+        //TODO: get username from database and use it, remove tempname
         //set welcome text with the user's name to make them feel more comfortable with the app
-        welcome = findViewById(R.id.welcome);
-
-        //get welcome message, but input username
         //using string formatting allows for dynamic translatable strings
+        String uname = "Temporary Companion";
+        welcome = findViewById(R.id.welcome);
         String text = getResources().getString(R.string.welcome_message, uname);
         welcome.setText(text);
 
@@ -261,10 +239,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+        // Check if user is signed in (non-null), if not go to account creation/login.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
-        //TODO: replace with updated UI for logged in user? test first
+
+        if(mAuth.getCurrentUser()==null){
+            //if(uname.equals("")){
+            //if the username isn't available, take to account creation
+            Intent i = new Intent(getApplicationContext(), AccountCreation.class);
+
+            startActivity(i);
+        }//end if
+        //We start in MainActivity instead of account creation because most users will usually be logged in
     }//end onStart
 
 }//end class
