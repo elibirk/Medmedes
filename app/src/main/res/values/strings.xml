@@ -19,6 +19,10 @@
     <string name="account_creation_pass_confirm">Confirm Password:</string>
     <string name="account_creation_submit_button">Create Account</string>
     <string name="account_creation_known_account">Already have an account? Log in here.</string>
+    <string name="account_creation_known_msg">Welcome back to Medmedes. Please log in below.</string>
+    <string name="account_creation_known_submit_button">Login</string>
+    <string name="account_creation_known_fail_title">Login failed.</string>
+    <string name="account_creation_known_fail">Please recheck your credentials.</string>
 
     <string name="main_current_glucose">Current Glucose: </string>
     <string name="main_btn_submit">Submit Glucose</string>

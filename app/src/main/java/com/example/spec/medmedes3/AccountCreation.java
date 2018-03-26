@@ -1,5 +1,6 @@
 package com.example.spec.medmedes3;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -8,13 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +26,8 @@ public class AccountCreation extends AppCompatActivity {
 
     TextView welcome;
 
+    TextView login;
+
     EditText username;
 
     EditText email;
@@ -33,6 +35,8 @@ public class AccountCreation extends AppCompatActivity {
     EditText password1;
 
     EditText password2;
+
+    AlertDialog dialog;
 
     private FirebaseAuth mAuth;
 
@@ -86,7 +90,7 @@ public class AccountCreation extends AppCompatActivity {
                                 Log.d("DBYES", "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
 
-                                //TODO: save user's name in database?
+                                //TODO: save user's name in database
 
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
@@ -108,43 +112,69 @@ public class AccountCreation extends AppCompatActivity {
     }//end CreateAccount
 
     public void KnownAccount(View v){
-        //TODO: layout change; maybe just hide some stuff: username, 'create account', password confirmation
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //grab welcome TV and the edit texts
         username = findViewById(R.id.et_UserName);
         welcome = findViewById(R.id.welcome);
         email = findViewById(R.id.et_Email);
         password1 = findViewById(R.id.et_Password);
+        password2 = findViewById(R.id.et_Password2);
+        login = findViewById(R.id.btn_known_account);
 
-        mAuth.signInWithEmailAndPassword(email.getText().toString(), password1.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("SIGNINYES", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
-                            prefs.edit().putString("username", username.getText().toString()).commit();
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        //hide things we don't need
+        welcome.setText(R.string.account_creation_known_msg);
+        password2.setVisibility(View.GONE);
+        login.setVisibility(View.GONE);
+        username.setVisibility(View.GONE);
 
-                            startActivity(i);
-                            //TODO: Replace
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("SIGNINFAIL", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(AccountCreation.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
-                            //TODO: Replace
-                        }//end else
+        TextView temp = findViewById(R.id.tv_UserName);
+        temp.setVisibility(View.GONE);
+        temp = findViewById(R.id.tv_Password2);
+        temp. setVisibility(View.GONE);
 
-                        // ...
-                    }//end onComplete
-                });//end signIn
+
+        //change the button to say submit and use LogIn as its action
+        Button submit = findViewById(R.id.btn_make_request);
+        submit.setText(R.string.account_creation_known_submit_button);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs = PreferenceManager.getDefaultSharedPreferences(AccountCreation.this);
+
+                //grab welcome TV and the edit texts
+
+
+                mAuth.signInWithEmailAndPassword(email.getText().toString(), password1.getText().toString())
+                        .addOnCompleteListener(AccountCreation.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d("SIGNINYES", "signInWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+
+                                    startActivity(i);
+                                } else {
+                                    //log the error
+                                    Log.w("SIGNINFAIL", "signInWithEmail:failure", task.getException());
+
+                                    //If signing fails, let the user know that there was an issue
+                                    //but don't tell them specifics in case that reveals info about users & the database
+                                    dialog = new AlertDialog.Builder(AccountCreation.this, R.style.badDialog).create();
+                                    dialog.setTitle(getResources().getString(R.string.account_creation_known_fail_title));
+                                    dialog.setMessage(getResources().getString(R.string.account_creation_known_fail));
+                                    dialog.show();
+
+                                }//end else
+
+                                // ...
+                            }//end onComplete
+                        });//end signIn
+            }//end onClick
+        });//end listener
+
     }//end KnownAccount
+
 
     public void onBackPressed() {//deal with backbutton
         //do nothing, that way we can avoid people skipping login

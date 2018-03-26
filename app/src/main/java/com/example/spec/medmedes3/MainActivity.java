@@ -213,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
         //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).child("level").setValue(glustr);
 
         //increase number of entries by one
-        entrynum++;
-        pref.edit().remove("entrynum");
-        pref.edit().putInt("entrynum", entrynum).commit();
+        //entrynum++;
+        //pref.edit().remove("entrynum");
+        //.edit().putInt("entrynum", entrynum).commit();
 
     }//end Submit
 
@@ -239,6 +239,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+        //TODO: implement proper signout option and remove this
+        //FirebaseAuth.getInstance().signOut();
+
         // Check if user is signed in (non-null), if not go to account creation/login.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -251,5 +255,9 @@ public class MainActivity extends AppCompatActivity {
         }//end if
         //We start in MainActivity instead of account creation because most users will usually be logged in
     }//end onStart
+
+    public void onBackPressed() {//deal with backbutton
+        //do nothing, that way we can avoid weird login issues
+    } //end onBackPressed
 
 }//end class
