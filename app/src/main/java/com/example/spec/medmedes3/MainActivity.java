@@ -240,9 +240,6 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        //TODO: implement proper signout option and remove this
-        //FirebaseAuth.getInstance().signOut();
-
         // Check if user is signed in (non-null), if not go to account creation/login.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -259,5 +256,15 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {//deal with backbutton
         //do nothing, that way we can avoid weird login issues
     } //end onBackPressed
+
+    public void Logout(View v){
+        //log the user out
+        FirebaseAuth.getInstance().signOut();
+
+        //then take them to login
+        Intent i = new Intent(getApplicationContext(), AccountCreation.class);
+
+        startActivity(i);
+    }//end Logout
 
 }//end class

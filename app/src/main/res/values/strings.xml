@@ -36,6 +36,7 @@
     <string name="main_low_glucose">Your glucose is abnormally low! Be careful.</string>
     <string name="main_gg_title">Good job!</string>
     <string name="main_normal_glucose">Your glucose is normal. Congrats!</string>
+    <string name="main_logout">Not you? Logout</string>
 
     <string name="mremind_header">Current Reminders:</string>
 
