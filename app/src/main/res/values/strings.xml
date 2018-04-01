@@ -42,4 +42,5 @@
 
     <string name="newremind_instruction_text">Type the medicine name below, and then press the \'ADD REMINDER\' button to add a reminder: </string>
     <string name="newremind_submit">Add reminder</string>
+    <string name="newremind_alarm_title">Set Alarm Time</string>
 </resources>

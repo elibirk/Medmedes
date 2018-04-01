@@ -59,7 +59,7 @@ public class NewReminder extends AppCompatActivity {
 
             }
         });
-    }
+    }//end onCreate
 
     //allows user to choose the time of the alarm
     private void openTimePickerDialog(boolean is24r) {
@@ -68,11 +68,11 @@ public class NewReminder extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(NewReminder.this,
                 onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), is24r);
-        timePickerDialog.setTitle("Set Alarm Time");
+        timePickerDialog.setTitle(R.string.newremind_alarm_title);
 
         timePickerDialog.show();
 
-    }
+    }//end openTimePickerDialog
 
     //once time is chosen, set alarm
     TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -136,7 +136,6 @@ AlarmReceiver.setAlarm(this);*/
                 AlarmManager.INTERVAL_DAY, pendingIntent);
 
 
-        //////////////////////////////////////////////////////
         myRef.child("Dummy").setValue("");
         String tcal2 = targetCal.getTime() + "";
         String time = tcal2.substring(11, 23);

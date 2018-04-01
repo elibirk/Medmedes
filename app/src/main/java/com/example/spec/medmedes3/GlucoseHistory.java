@@ -44,8 +44,6 @@ public class GlucoseHistory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_glucose_history);
 
-
-
         arraylist_count=0;
         user_count =1;
 

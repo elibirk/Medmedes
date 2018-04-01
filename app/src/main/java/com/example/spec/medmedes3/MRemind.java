@@ -47,13 +47,12 @@ public class MRemind extends AppCompatActivity {
 
         myRef = FirebaseDatabase.getInstance().getReference("User");
 
-
         activity_search_tasks = findViewById(R.id.reminders);
         newMedicine = findViewById(R.id.newMedicine);
 
         listener();
 
-    }
+    }//end onCreate
 
     private void listener(){
         //add content to trigger
@@ -96,22 +95,22 @@ public class MRemind extends AppCompatActivity {
 
 
                     }//end entries
-                }
+                }//end for
 
 
-            }//end users
+            }//end onDataChanged
 
             @Override
             public void onCancelled (DatabaseError databaseError){
                 // Getting Post failed, log a message
                 Log.d("Canceled", "loadPost:onCancelled", databaseError.toException());
                 // ...
-            }
+            }//end onCancelled
 
         }; //end event listener
 
         myRef.addValueEventListener(userListener);
-    }
+    }//end listener
 
 
 
@@ -120,14 +119,14 @@ public class MRemind extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), NewReminder.class);
 
         startActivity(i);
-    }
+    }//end addReminder
 
     public void onBackPressed(){
         //go back to main
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
         startActivity(i);
-    }
+    }//end onBackPressed
 
 
 }//end MRemind

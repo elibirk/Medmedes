@@ -3,11 +3,9 @@ package com.example.spec.medmedes3;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -128,18 +126,22 @@ public class MainActivity extends AppCompatActivity {
             //change the message depending on the glucose level
             //dialog & color is used so it's easy to read and understand, especially since diabetes patients often cant see well
             if (Integer.parseInt(glustr) > 180) {
+                //Dangerously high glucose
                 dialog = new AlertDialog.Builder(MainActivity.this, R.style.badDialog).create();
                 dialog.setTitle(getResources().getString(R.string.main_dg_title));
                 dialog.setMessage(getResources().getString(R.string.main_dangerous_glucose));
             } else if (Integer.parseInt(glustr) > 130) {
+                //High glucose
                 dialog = new AlertDialog.Builder(MainActivity.this, R.style.warningDialog).create();
                 dialog.setTitle(getResources().getString(R.string.main_hg_title));
                 dialog.setMessage(getResources().getString(R.string.main_high_glucose));
             } else if (Integer.parseInt(glustr) < 80) {
+                //Low glucose
                 dialog = new AlertDialog.Builder(MainActivity.this, R.style.badDialog).create();
                 dialog.setTitle(getResources().getString(R.string.main_lg_title));
                 dialog.setMessage(getResources().getString(R.string.main_low_glucose));
             } else {
+                //Normal glucose
                 dialog = new AlertDialog.Builder(MainActivity.this, R.style.goodDialog).create();
                 dialog.setTitle(getResources().getString(R.string.main_gg_title));
                 dialog.setMessage(getResources().getString(R.string.main_normal_glucose));
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
             //TODO: move database entering here, notify of database success?
 
-        }//end no content else
+        }//end no content if
 
 /*
         //Determines if the username exists

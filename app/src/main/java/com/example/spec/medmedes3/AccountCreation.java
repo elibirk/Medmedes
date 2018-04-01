@@ -47,9 +47,7 @@ public class AccountCreation extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        //OLD connect to database
-        //myRef = FirebaseDatabase.getInstance().getReference("message");
-    }
+    }//end onCreate
 
 
     public void CreateAccount(View v){
@@ -120,7 +118,7 @@ public class AccountCreation extends AppCompatActivity {
         password2 = findViewById(R.id.et_Password2);
         login = findViewById(R.id.btn_known_account);
 
-        //hide things we don't need
+        //Change welcome message and hide things we don't need
         welcome.setText(R.string.account_creation_known_msg);
         password2.setVisibility(View.GONE);
         login.setVisibility(View.GONE);
@@ -129,7 +127,7 @@ public class AccountCreation extends AppCompatActivity {
         TextView temp = findViewById(R.id.tv_UserName);
         temp.setVisibility(View.GONE);
         temp = findViewById(R.id.tv_Password2);
-        temp. setVisibility(View.GONE);
+        temp.setVisibility(View.GONE);
 
 
         //change the button to say submit and use LogIn as its action
@@ -167,7 +165,6 @@ public class AccountCreation extends AppCompatActivity {
 
                                 }//end else
 
-                                // ...
                             }//end onComplete
                         });//end signIn
             }//end onClick
@@ -176,7 +173,7 @@ public class AccountCreation extends AppCompatActivity {
     }//end KnownAccount
 
 
-    public void onBackPressed() {//deal with backbutton
+    public void onBackPressed() {//deal with back-button
         //do nothing, that way we can avoid people skipping login
     } //end onBackPressed
 
