@@ -6,13 +6,20 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth; //reference to Firebase database for user authentication
 
+    private FirebaseDatabase database; //Firebase database to store values
+
+    private DatabaseReference myRef; //reference to above
+
     AlertDialog dialog; //AltertDialog builder for dialog popups
 
     @Override
@@ -44,25 +55,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //access the database
+        //access the database for authentication
         mAuth = FirebaseAuth.getInstance();
 
         //grab the average box so we can quickly calculate that
         avg = findViewById(R.id.tv_avg_num);
 
         //get database reference
-        //TODO: Remove and replace database references with updated code
-        //myRef = FirebaseDatabase.getInstance().getReference("User");
-/*
-        ValueEventListener postListener = new ValueEventListener() {
+        database =  FirebaseDatabase.getInstance();
+        myRef = database.getReference("User");
+
+        //listen for changes in order to update the average
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                //String value = dataSnapshot.getValue(String.class);
+                //Log.d("VAL", "Value is: " + value);
 
                 //reinitialize average and count
                 totalOfEntries = 0;
                 count = 0;
 
-                //go through all of them and calculate average
+                /*go through all of them and calculate average
                 for (int j = 1; dataSnapshot.child("UserDetails" + user_count).child("Entries").child("entry" + String.valueOf(j)).child("level").getValue(String.class) != null;) {
                     Log.d("j", String.valueOf(j));
                     Log.d("ucount", String.valueOf(user_count));
@@ -73,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     count++;
                     j++;
                 }//end for
-
-                Log.d("averageafter", String.valueOf(totalOfEntries));
+                */
 
                 //don't divide by 0
                 if(count != 0) {
@@ -86,14 +101,11 @@ public class MainActivity extends AppCompatActivity {
             }//end on DataChanged
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }//end onCalcelled
-        }; //end listener
-
-        */
-
-        //myRef.addValueEventListener(postListener);
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("ERROR", "Failed to read value.", error.toException());
+            }//end onCancelled
+        }); //end listener
 
         //myRef.child("dummy").setValue("");
         //read fake value to trigger listener to calculate average
@@ -149,7 +161,22 @@ public class MainActivity extends AppCompatActivity {
 
             //now show our dialog
             dialog.show();
-            //TODO: move database entering here, notify of database success?
+
+            //get the date
+            Calendar now = Calendar.getInstance();
+            int year = now.get(Calendar.YEAR);
+            //month is plus one because the Calendar class starts with zero
+            int month = now.get(Calendar.MONTH);
+            int day = now.get(Calendar.DAY_OF_MONTH);
+            int hour = now.get(Calendar.HOUR_OF_DAY);
+            int minute = now.get(Calendar.MINUTE);
+
+            //convert the month into a string
+            String mthStr = new DateFormatSymbols().getMonths()[month];
+
+            //do I still need to do this like this or does the database allow me to dynamically add child values now?
+            //Store as user.year.month.day.hour.minute
+            myRef.child(mAuth.getCurrentUser().getUid()).child("Entries").child(String.valueOf(year)).child(mthStr).child(String.valueOf(day)).child(String.valueOf(hour)).child(String.valueOf(minute)).setValue(glustr);
 
         }//end no content if
 
@@ -195,24 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
         //myRef.addListenerForSingleValueEvent(userListener);
 
-        //get the date
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        //month is plus one because the Calendar class starts with zero
-        int month = now.get(Calendar.MONTH) + 1;
-        int day = now.get(Calendar.DAY_OF_MONTH);
-        int hour = now.get(Calendar.HOUR_OF_DAY);
-        int minute = now.get(Calendar.MINUTE);
 
-        //TODO: maybe format whole date as one string? Make sure not to make month/day calendar issue, maybe convert month into string
-        //i.e. 5 Nov 2349 instead of 5/11/2349 or 11/5/2349 to prevent confusion
-        //first see what would be easiest with the database
-
-        //TODO: put date & info into the database
-
-        //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).setValue("");
-        //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).child("date").setValue(date);
-        //myRef.child("UserDetails"+user_count).child("Entries").child("entry" + String.valueOf(entrynum)).child("level").setValue(glustr);
 
         //increase number of entries by one
         //entrynum++;
