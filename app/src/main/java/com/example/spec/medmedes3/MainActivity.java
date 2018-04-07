@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     int totalOfEntries; //number value to store total glucose levels added together
 
-    int average; //glucose levels divided by # of glucose entries to get an average
+    int average = 0; //glucose levels divided by # of glucose entries to get an average
 
     int count; //# of glucose entries used to calculate an average
 
@@ -65,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
         database =  FirebaseDatabase.getInstance();
         myRef = database.getReference("User");
 
+        String uname = "Temporary Companion";
+        welcome = findViewById(R.id.welcome);
+        String text = getResources().getString(R.string.welcome_message, uname);
+        welcome.setText(text);
+        //set welcome text with the user's name to make them feel more comfortable with the app
+        //using string formatting allows for dynamic translatable strings
+        //fake value here in case there is an error
+
         //listen for changes in order to update the average
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,7 +86,22 @@ public class MainActivity extends AppCompatActivity {
                 totalOfEntries = 0;
                 count = 0;
 
+                //TODO: fix this username fetching, currently returning HashMap?
+                String uname = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("username").getValue(String.class);
+                welcome = findViewById(R.id.welcome);
+                String text = getResources().getString(R.string.welcome_message, uname);
+                welcome.setText(text);
+                //set welcome text with the user's name to make them feel more comfortable with the app
+                //using string formatting allows for dynamic translatable strings
+
                 /*go through all of them and calculate average
+                //something like this? might need to change date format for this to work
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String email = ds.child("email").getValue(String.class);
+                    String name = ds.child("name").getValue(String.class);
+                    Log.d("TAG", email + " / " + name);
+                }
+
                 for (int j = 1; dataSnapshot.child("UserDetails" + user_count).child("Entries").child("entry" + String.valueOf(j)).child("level").getValue(String.class) != null;) {
                     Log.d("j", String.valueOf(j));
                     Log.d("ucount", String.valueOf(user_count));
@@ -107,16 +130,8 @@ public class MainActivity extends AppCompatActivity {
             }//end onCancelled
         }); //end listener
 
-        //myRef.child("dummy").setValue("");
-        //read fake value to trigger listener to calculate average
-
-        //TODO: get username from database and use it, remove tempname
-        //set welcome text with the user's name to make them feel more comfortable with the app
-        //using string formatting allows for dynamic translatable strings
-        String uname = "Temporary Companion";
-        welcome = findViewById(R.id.welcome);
-        String text = getResources().getString(R.string.welcome_message, uname);
-        welcome.setText(text);
+        myRef.child("dummy").setValue("");
+        //read fake value to trigger listener to calculate average and indicate username
 
     }//end onCreate
 

@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AccountCreation extends AppCompatActivity {
 
@@ -38,7 +40,11 @@ public class AccountCreation extends AppCompatActivity {
 
     AlertDialog dialog;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth; //authorization database
+
+    private FirebaseDatabase database; //Firebase database to store values
+
+    private DatabaseReference myRef; //reference to above
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +94,12 @@ public class AccountCreation extends AppCompatActivity {
                                 Log.d("DBYES", "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
 
-                                //TODO: save user's name in database
+                                //save the user's username so it can be referenced later
+                                database =  FirebaseDatabase.getInstance();
+                                myRef = database.getReference("User");
+                                myRef.child(mAuth.getCurrentUser().getUid()).child("username").setValue(username.getText().toString());
 
+                                //then go back to main, logging the user in
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
                                 startActivity(i);
@@ -149,6 +159,7 @@ public class AccountCreation extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("SIGNINYES", "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
+
                                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
                                     startActivity(i);
