@@ -65,14 +65,6 @@ public class MainActivity extends AppCompatActivity {
         database =  FirebaseDatabase.getInstance();
         myRef = database.getReference("User");
 
-        String uname = "Temporary Companion";
-        welcome = findViewById(R.id.welcome);
-        String text = getResources().getString(R.string.welcome_message, uname);
-        welcome.setText(text);
-        //set welcome text with the user's name to make them feel more comfortable with the app
-        //using string formatting allows for dynamic translatable strings
-        //fake value here in case there is an error
-
         //listen for changes in order to update the average
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 totalOfEntries = 0;
                 count = 0;
 
-                //TODO: fix this username fetching, currently returning HashMap?
                 String uname = dataSnapshot.child(mAuth.getCurrentUser().getUid()).child("username").getValue(String.class);
                 welcome = findViewById(R.id.welcome);
                 String text = getResources().getString(R.string.welcome_message, uname);

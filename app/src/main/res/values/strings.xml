@@ -6,6 +6,7 @@
     <string name="title_activity_new_reminder">New Reminder</string>
 
     <string name="welcome_message">Welcome %1$s!\nHow are you today?</string>
+    <string name="welcome_default">Welcome! How are you today?</string>
 
     <string name="uname_warning">You must enter a username.</string>
     <string name="email_warning">You must enter an email address.</string>

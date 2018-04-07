@@ -17,6 +17,7 @@
             android:id="@+id/welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/welcome_default"
             android:textSize="30sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
