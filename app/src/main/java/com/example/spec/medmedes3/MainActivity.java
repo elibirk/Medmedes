@@ -28,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     TextView welcome; //welcome textview to hold the user's name
 
-    //int task_count;
-
-    int entrynum; //number of entries in database, stored in prefs. TODO: move to database or count database entries instead
-
     int totalOfEntries = 0; //number value to store total glucose levels added together
 
     int average = 0; //glucose levels divided by # of glucose entries to get an average
@@ -239,5 +235,6 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(i);
     }//end Logout
+
 
 }//end class
