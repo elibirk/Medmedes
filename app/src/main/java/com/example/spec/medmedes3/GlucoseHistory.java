@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,15 +26,17 @@ import java.util.ArrayList;
 
 public class GlucoseHistory extends AppCompatActivity {
 
-    DatabaseReference myRef;
+    private FirebaseAuth mAuth; //reference to Firebase database for user authentication
+
+    private FirebaseDatabase database; //Firebase database to store values
+
+    private DatabaseReference myRef; //reference to above
 
     View convertView;
 
     LayoutInflater inflater;
 
-    LinearLayout activity_search_tasks;
-
-    ArrayList<String> taskname;
+    LinearLayout activity_glucose_history;
 
     int arraylist_count;
 
@@ -50,10 +53,14 @@ public class GlucoseHistory extends AppCompatActivity {
         //essentially search database & populate the page, doing this in a loop for every result
         //we can probably set this up like the ViewAdapter hw if we want more efficiency
         //but the priority right now is completion, not perfection
-        activity_search_tasks = findViewById(R.id.LL_glucose);
+        activity_glucose_history = findViewById(R.id.LL_glucose);
 
-        //access messages part of database
-        myRef = FirebaseDatabase.getInstance().getReference("User");
+        //access the database for authentication to get UID
+        mAuth = FirebaseAuth.getInstance();
+
+        //access user's part of database
+        database =  FirebaseDatabase.getInstance();
+        myRef = database.getReference("User").child(mAuth.getCurrentUser().getUid());
 
         //add fake value to trigger listener
         myRef.child("Dummy").setValue("");
@@ -63,51 +70,35 @@ public class GlucoseHistory extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                taskname = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.child("Entries").getChildren()) {
+                    //for all entries that the user has
+                    inflater = getLayoutInflater();
 
-                Log.d("DATABASE_USER",""+dataSnapshot.child("UserDetails" + 1).child("username").getValue(String.class));
+                    //inflate the box
+                    convertView = inflater.inflate(R.layout.box, null);
+                    activity_glucose_history.addView(convertView);
+                    RelativeLayout rl = convertView.findViewById(R.id.box_level_layout);
 
-                //
-                for (int i = 1; dataSnapshot.child("UserDetails" + i).child("username").getValue(String.class) != null; i++) {
-                    user_count =i;
-                    //for all tasks that the user has
-                    //will do later: if (username = username in prefs) then do the for
-                    for(int j = 1; dataSnapshot.child("UserDetails" + i).child("Entries").child("entry"+j).child("level").getValue(String.class) != null; j++) {
+                    //set date TODO: make readable
+                    TextView date = convertView.findViewById(R.id.tv_date);
+                    date.setText(ds.child("date").getValue(String.class));
 
-                        Log.d("USER_DETAILS", ""+dataSnapshot.child("UserDetails" + i).child("Entries").child("entry"+j).child("date").getValue(String.class));
+                    //set level
+                    TextView level = convertView.findViewById(R.id.tv_level);
+                    Integer lvl = ds.child("glucose").getValue(Integer.class);
 
-                        inflater = getLayoutInflater();
+                    //choose color based on how healthy the level is
+                    if(lvl > 180 || lvl < 80){
+                        rl.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+                        date.setTextColor(getResources().getColor(android.R.color.white));
+                        level.setTextColor(getResources().getColor(android.R.color.white));
+                    } else if(lvl > 130){
+                        rl.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_dark));
+                    }//end else if
 
-                        arraylist_count = j;
-
-                        //inflate the box
-                        convertView = inflater.inflate(R.layout.box, null);
-                        activity_search_tasks.addView(convertView);
-                        RelativeLayout rl = convertView.findViewById(R.id.box_task_layout);
-
-                        //set level
-                        TextView date = convertView.findViewById(R.id.tv_date);
-                        date.setText(dataSnapshot.child("UserDetails"+i).child("Entries").child("entry"+j).child("date").getValue(String.class));
-
-                        //set level
-                        TextView level = convertView.findViewById(R.id.tv_level);
-                        String lvl = dataSnapshot.child("UserDetails"+i).child("Entries").child("entry"+j).child("level").getValue(String.class);
-
-                        //choose color based on how healthy the level is
-                        if(Integer.parseInt(lvl) > 180 || Integer.parseInt(lvl) < 80){
-                            rl.setBackgroundColor(0xFFc13a3a);
-                            date.setTextColor(0xFFffffff);
-                            level.setTextColor(0xFFffffff);
-                        } else if(Integer.parseInt(lvl)>130){
-                            rl.setBackgroundColor(0xFFe5b060);
-                        }
-
-                        //add the level content
-                        level.setText(lvl);
-
-
-                    }//end entry loop
-                } //end users loop
+                    //add the level content
+                    level.setText(String.valueOf(lvl));
+                }//end entry for loop
 
             }//end onDataChanged
 

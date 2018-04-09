@@ -79,20 +79,20 @@ public class MainActivity extends AppCompatActivity {
                 //using string formatting allows for dynamic translatable strings
 
                 //go through all of them and calculate average
-                    for (DataSnapshot ds : dataSnapshot.child("Entries").getChildren()) {
-                        //iterate through the entries, only calculate average if both date and glucose are present
-                        if (ds.child("glucose").getValue(Integer.class)!=null) {
-                            Log.d("WhatTHeFuck", "????");
-                            count = count + 1;
+                for (DataSnapshot ds : dataSnapshot.child("Entries").getChildren()) {
+                    //iterate through the entries, only calculate average if both date and glucose are present
+                    if (ds.child("glucose").getValue(Integer.class)!=null) {
+                        Log.d("WhatTHeFuck", "????");
+                        count = count + 1;
 
-                            //TODO: remove date once I use it for showing the history
-                            String date = ds.child("date").getValue(String.class);
-                            Integer glu = ds.child("glucose").getValue(Integer.class);
+                        //TODO: remove date once I use it for showing the history
+                        String date = ds.child("date").getValue(String.class);
+                        Integer glu = ds.child("glucose").getValue(Integer.class);
 
-                            totalOfEntries = totalOfEntries + glu;
-                            Log.d("ENTRYTAG", date + " / " + glu);
-                        }//end if
-                    }//end for loop
+                        totalOfEntries = totalOfEntries + glu;
+                        Log.d("ENTRYTAG", date + " / " + glu);
+                    }//end if
+                }//end for loop
 
                 Log.d("averagecount", String.valueOf(count));
                 //then calculate average
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText glucose = findViewById(R.id.et_current);
 
         //tell the user how they're doing
-        if(glucose.getText() != null) { //do not try to enter if accidentally pressed submit button
+        if(!glucose.getText().toString().equals("")) { //do not try to enter if accidentally pressed submit button
             // otherwise, parse the data
 
             //get the glucose level, then clear the box so the user knows it went through

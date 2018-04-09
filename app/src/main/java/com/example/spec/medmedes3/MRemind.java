@@ -80,7 +80,7 @@ public class MRemind extends AppCompatActivity {
                         //inflate the box
                         convertView = inflater.inflate(R.layout.box, null);
                         activity_search_tasks.addView(convertView);
-                        RelativeLayout rl = convertView.findViewById(R.id.box_task_layout);
+                        RelativeLayout rl = convertView.findViewById(R.id.box_level_layout);
 
                         //set level
                         TextView date = convertView.findViewById(R.id.tv_date);
