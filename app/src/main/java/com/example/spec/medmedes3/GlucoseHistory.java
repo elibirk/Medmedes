@@ -1,16 +1,11 @@
 package com.example.spec.medmedes3;
 
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class GlucoseHistory extends AppCompatActivity {
 
@@ -74,14 +70,28 @@ public class GlucoseHistory extends AppCompatActivity {
                     //for all entries that the user has
                     inflater = getLayoutInflater();
 
+                    //TODO: reverse-chronological? so users see most recent activity first
+                    //TODO: charts?
+                    //TODO: options for weekly/monthly/yearly?
+                    //more than yearly only for premium users lol
+
                     //inflate the box
                     convertView = inflater.inflate(R.layout.box, null);
                     activity_glucose_history.addView(convertView);
                     RelativeLayout rl = convertView.findViewById(R.id.box_level_layout);
 
-                    //set date TODO: make readable
+                    //set date
+                    //first get the date value from the databaase and reconvert it
+                    Long dateLong = Long.parseLong(ds.child("date").getValue(String.class));
+                    Date dt = new Date(dateLong);
+
+                    //convert the Date to String using formatting
+                    DateFormat dateFormat = DateFormat.getDateTimeInstance();
+                    String dateStr = dateFormat.format(dt);
+
+                    //finally set the value in the box
                     TextView date = convertView.findViewById(R.id.tv_date);
-                    date.setText(ds.child("date").getValue(String.class));
+                    date.setText(dateStr);
 
                     //set level
                     TextView level = convertView.findViewById(R.id.tv_level);
@@ -107,7 +117,7 @@ public class GlucoseHistory extends AppCompatActivity {
                 // Getting Post failed, log a message
                 Log.d("Canceled", "loadPost:onCancelled", databaseError.toException());
                 // ...
-            }
+            }//end onCancelled
 
         }; //end event listener
 

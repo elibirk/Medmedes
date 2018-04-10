@@ -78,23 +78,19 @@ public class MainActivity extends AppCompatActivity {
                 //set welcome text with the user's name to make them feel more comfortable with the app
                 //using string formatting allows for dynamic translatable strings
 
+                //TODO: only calculate average of past 30 days
                 //go through all of them and calculate average
                 for (DataSnapshot ds : dataSnapshot.child("Entries").getChildren()) {
                     //iterate through the entries, only calculate average if both date and glucose are present
                     if (ds.child("glucose").getValue(Integer.class)!=null) {
-                        Log.d("WhatTHeFuck", "????");
                         count = count + 1;
 
-                        //TODO: remove date once I use it for showing the history
-                        String date = ds.child("date").getValue(String.class);
                         Integer glu = ds.child("glucose").getValue(Integer.class);
 
                         totalOfEntries = totalOfEntries + glu;
-                        Log.d("ENTRYTAG", date + " / " + glu);
                     }//end if
                 }//end for loop
 
-                Log.d("averagecount", String.valueOf(count));
                 //then calculate average
                 //don't divide by 0
                 if(count != 0) {
@@ -103,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
                 //inform user of average
                 avg.setText(String.valueOf(average));
-                Log.d("average", String.valueOf(average));
 
             }//end on DataChanged
 
