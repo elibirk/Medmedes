@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,96 +23,77 @@ import com.google.firebase.database.ValueEventListener;
 public class MRemind extends AppCompatActivity {
 
     LayoutInflater inflater;
+
     View convertView;
 
-    LinearLayout activity_search_tasks;
+    LinearLayout activity_reminders;
 
     EditText newMedicine;
 
-    SharedPreferences pref;
+    private FirebaseAuth mAuth; //reference to Firebase database for user authentication
 
-    DatabaseReference myRef;
+    private FirebaseDatabase database; //Firebase database to store values
 
-    int remnum;
-
-    int user_count = 1;
+    private DatabaseReference myRef; //reference to above
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mremind);
 
-        //get number of reminders
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        remnum = pref.getInt("remnum", 1);
+        //access the database for authentication
+        mAuth = FirebaseAuth.getInstance();
 
-        myRef = FirebaseDatabase.getInstance().getReference("User");
+        //get database reference
+        database =  FirebaseDatabase.getInstance();
+        myRef = database.getReference("User").child(mAuth.getCurrentUser().getUid());
 
-        activity_search_tasks = findViewById(R.id.reminders);
+        activity_reminders = findViewById(R.id.reminders);
         newMedicine = findViewById(R.id.newMedicine);
 
-        listener();
-
-    }//end onCreate
-
-    private void listener(){
-        //add content to trigger
+        //add content to trigger listener
         myRef.child("Dummy").setValue("");
 
-        ValueEventListener userListener = new ValueEventListener() {
-
+        //listen for changes in order to update the average
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
 
-                Log.d("DATABASE_USER",""+dataSnapshot.child("UserDetails" + 1).child("username").getValue(String.class));
-
-
-                //users?
-                for (int i = 1; dataSnapshot.child("UserDetails" + i).child("username").getValue(String.class) != null; i++) {
-                    user_count =i;
-                    //for all tasks that the user has
-                    //TO DO: if (username = username in prefs) then do the for
-                    for(int j = 1; dataSnapshot.child("UserDetails" + i).child("Reminders").child("reminder"+j).child("name").getValue(String.class) != null; j++) {
-
-                        Log.d("USER_DETAILS", ""+dataSnapshot.child("UserDetails" + i).child("Reminders").child("reminder"+j).child("date").getValue(String.class));
+                //fetch reminders
+                for (DataSnapshot ds : dataSnapshot.child("Reminders").getChildren()) {
+                    //iterate through the entries, only calculate average if both date and glucose are present
+                    if (ds.child("name").getValue(String.class)!=null) {
 
                         inflater = getLayoutInflater();
 
                         //inflate the box
                         convertView = inflater.inflate(R.layout.box, null);
-                        activity_search_tasks.addView(convertView);
+                        activity_reminders.addView(convertView);
                         RelativeLayout rl = convertView.findViewById(R.id.box_level_layout);
 
-                        //set level
-                        TextView date = convertView.findViewById(R.id.tv_date);
-                        date.setText(dataSnapshot.child("UserDetails"+i).child("Reminders").child("reminder"+j).child("date").getValue(String.class));
+                        //set the time in the box
+                        TextView time = convertView.findViewById(R.id.tv_date);
+                        time.setText(ds.child("time").getValue(String.class));
 
-                        //set level
+                        //set the name in the box
                         TextView name = convertView.findViewById(R.id.tv_level);
-                        String lvl = dataSnapshot.child("UserDetails"+i).child("Reminders").child("reminder"+j).child("name").getValue(String.class);
+                        name.setText(ds.child("name").getValue(String.class));
 
+                    }//end if
+                }//end for loop
 
-                        name.setText(lvl);
-
-
-                    }//end entries
-                }//end for
-
-
-            }//end onDataChanged
+            }//end on DataChanged
 
             @Override
-            public void onCancelled (DatabaseError databaseError){
-                // Getting Post failed, log a message
-                Log.d("Canceled", "loadPost:onCancelled", databaseError.toException());
-                // ...
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("ERROR", "Failed to read value.", error.toException());
             }//end onCancelled
+        }); //end listener
 
-        }; //end event listener
-
-        myRef.addValueEventListener(userListener);
-    }//end listener
-
+    }//end onCreate
 
 
     public void addReminder(View v){
@@ -120,6 +102,7 @@ public class MRemind extends AppCompatActivity {
 
         startActivity(i);
     }//end addReminder
+
 
     public void onBackPressed(){
         //go back to main

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,13 +24,11 @@ public class NewReminder extends AppCompatActivity {
 
     Button buttonstartSetDialog;
 
-    DatabaseReference myRef;
+    private FirebaseAuth mAuth; //reference to Firebase database for user authentication
 
-    int user_count = 1;
+    private FirebaseDatabase database; //Firebase database to store values
 
-    SharedPreferences pref;
-
-    int remnum;
+    private DatabaseReference myRef; //reference to above
 
     EditText newMedicine;
 
@@ -38,13 +37,12 @@ public class NewReminder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_reminder);
 
+        //access the database for authentication
+        mAuth = FirebaseAuth.getInstance();
 
-        //get number of reminders
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        remnum = pref.getInt("remnum", 1);
-
-        //access database
-        myRef = FirebaseDatabase.getInstance().getReference("User");
+        //get database reference
+        database =  FirebaseDatabase.getInstance();
+        myRef = database.getReference("User").child(mAuth.getCurrentUser().getUid());
 
         newMedicine = findViewById(R.id.newMedicine);
 
@@ -140,12 +138,11 @@ AlarmReceiver.setAlarm(this);*/
         String tcal2 = targetCal.getTime() + "";
         String time = tcal2.substring(11, 23);
 
-        myRef.child("UserDetails"+user_count).child("Reminders").child("reminder" + String.valueOf(remnum)).setValue("");
-        myRef.child("UserDetails"+user_count).child("Reminders").child("reminder" + String.valueOf(remnum)).child("date").setValue(time);
-        myRef.child("UserDetails"+user_count).child("Reminders").child("reminder" + String.valueOf(remnum)).child("name").setValue(newMedicine.getText().toString());
-        remnum++;
-        pref.edit().remove("remnum");
-        pref.edit().putInt("remnum", remnum).commit();
+        //store the reminder, use time instead of name to allow for multiple of the same medicine
+        myRef.child("Reminders").child(time).child("time").setValue(time);
+        myRef.child("Reminders").child(time).child("name").setValue(newMedicine.getText().toString());
+        //TODO: maybe add notes section? like 'take with water' or for a list of different meds
+
 
         //if chosen, go to add a reminder
         Intent i = new Intent(getApplicationContext(), MRemind.class);
