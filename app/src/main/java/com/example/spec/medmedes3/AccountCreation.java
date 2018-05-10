@@ -46,6 +46,8 @@ public class AccountCreation extends AppCompatActivity {
 
     private DatabaseReference myRef; //reference to above
 
+    //TODO: option to change account info (esp password) recaptcha for changing
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,7 @@ public class AccountCreation extends AppCompatActivity {
             welcome.setText(R.string.email_warning);
         } else if(password1.getText().toString().equals("") || password1.getText().toString().length() < 6){
             //TODO: require more secure passwords?
+            //TODO: Google's recaptcha library-thing for making sure we don't get bot accounts
             welcome.setText(R.string.pass_warning);
         } else if(!password1.getText().toString().equals(password2.getText().toString())){
             welcome.setText(R.string.pass_match_warning);

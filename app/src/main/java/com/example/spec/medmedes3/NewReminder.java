@@ -32,6 +32,8 @@ public class NewReminder extends AppCompatActivity {
 
     EditText newMedicine;
 
+    //TODO: option to clear data (With warnings)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

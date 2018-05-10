@@ -38,6 +38,9 @@ public class GlucoseHistory extends AppCompatActivity {
 
     int user_count;
 
+    //TODO: option to delete specific (Accidential? entry)
+    //TODO: entry notes?
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
