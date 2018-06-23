@@ -79,6 +79,7 @@ public class AccountCreation extends AppCompatActivity {
             welcome.setText(R.string.email_warning);
         } else if(password1.getText().toString().equals("") || password1.getText().toString().length() < 6){
             //TODO: require more secure passwords?
+            //TODO: configure database to require authentication
             //TODO: Google's recaptcha library-thing for making sure we don't get bot accounts
             welcome.setText(R.string.pass_warning);
         } else if(!password1.getText().toString().equals(password2.getText().toString())){
