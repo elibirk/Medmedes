@@ -84,7 +84,7 @@ public class GlucoseHistory extends AppCompatActivity {
                     RelativeLayout rl = convertView.findViewById(R.id.box_level_layout);
 
                     //set date
-                    //first get the date value from the databaase and reconvert it
+                    //first get the date value from the database and reconvert it
                     Long dateLong = Long.parseLong(ds.child("date").getValue(String.class));
                     Date dt = new Date(dateLong);
 
@@ -119,7 +119,6 @@ public class GlucoseHistory extends AppCompatActivity {
             public void onCancelled (DatabaseError databaseError){
                 // Getting Post failed, log a message
                 Log.d("Canceled", "loadPost:onCancelled", databaseError.toException());
-                // ...
             }//end onCancelled
 
         }; //end event listener

@@ -24,8 +24,6 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    SharedPreferences pref;
-
     TextView welcome; //welcome textview to hold the user's name
 
     int totalOfEntries = 0; //number value to store total glucose levels added together
@@ -203,9 +201,10 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        // Check if user is signed in (non-null), if not go to account creation/login.
+        //TODO: check to see if this can be removed? looks like it's not being used....
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        // Check if user is signed in (non-null), if not go to account creation/login.
         if(mAuth.getCurrentUser()==null){
             //if the username isn't available, take to account creation
             Intent i = new Intent(getApplicationContext(), AccountCreation.class);

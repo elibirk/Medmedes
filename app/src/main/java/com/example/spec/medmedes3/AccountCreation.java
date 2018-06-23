@@ -69,9 +69,6 @@ public class AccountCreation extends AppCompatActivity {
         password1 = findViewById(R.id.et_Password);
         password2 = findViewById(R.id.et_Password2);
 
-        //by default, assume no username exists since we've gotten to this page
-        //username_exists = false;
-
         //check content, give warnings for mixed/incorrect content
         if(username.getText().toString().equals("")){
             welcome.setText(R.string.uname_warning);
@@ -115,13 +112,13 @@ public class AccountCreation extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             }//end else
 
-                            // ...
                         }//end onComplete
             }); //end createUser
 
         }//end else
 
     }//end CreateAccount
+
 
     public void KnownAccount(View v){
 
@@ -153,7 +150,6 @@ public class AccountCreation extends AppCompatActivity {
                 prefs = PreferenceManager.getDefaultSharedPreferences(AccountCreation.this);
 
                 //grab welcome TV and the edit texts
-
 
                 mAuth.signInWithEmailAndPassword(email.getText().toString(), password1.getText().toString())
                         .addOnCompleteListener(AccountCreation.this, new OnCompleteListener<AuthResult>() {
