@@ -76,7 +76,6 @@ public class AccountCreation extends AppCompatActivity {
             welcome.setText(R.string.email_warning);
         } else if(password1.getText().toString().equals("") || password1.getText().toString().length() < 6){
             //TODO: require more secure passwords?
-            //TODO: configure database to require authentication
             //TODO: Google's recaptcha library-thing for making sure we don't get bot accounts
             welcome.setText(R.string.pass_warning);
         } else if(!password1.getText().toString().equals(password2.getText().toString())){
@@ -121,7 +120,6 @@ public class AccountCreation extends AppCompatActivity {
 
 
     public void KnownAccount(View v){
-
         username = findViewById(R.id.et_UserName);
         welcome = findViewById(R.id.welcome);
         email = findViewById(R.id.et_Email);
@@ -185,7 +183,37 @@ public class AccountCreation extends AppCompatActivity {
 
 
     public void onBackPressed() {//deal with back-button
-        //do nothing, that way we can avoid people skipping login
+        //don't exit, that way we can avoid people skipping login
+        //but (re)set the view in case people accidentally clicked the login button
+
+        username = findViewById(R.id.et_UserName);
+        welcome = findViewById(R.id.welcome);
+        email = findViewById(R.id.et_Email);
+        password1 = findViewById(R.id.et_Password);
+        password2 = findViewById(R.id.et_Password2);
+        login = findViewById(R.id.btn_known_account);
+
+        //Change welcome message and hide things we don't need
+        welcome.setText(R.string.account_creation_msg);
+        password2.setVisibility(View.VISIBLE);
+        login.setVisibility(View.VISIBLE);
+        username.setVisibility(View.VISIBLE);
+
+        TextView temp = findViewById(R.id.tv_UserName);
+        temp.setVisibility(View.VISIBLE);
+        temp = findViewById(R.id.tv_Password2);
+        temp.setVisibility(View.VISIBLE);
+
+        //change the button to say submit and use LogIn as its action
+        Button submit = findViewById(R.id.btn_make_request);
+        submit.setText(R.string.account_creation_submit_button);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateAccount(view);
+            }//end onClick
+        });//end onClick listener
+
     } //end onBackPressed
 
 }//end class

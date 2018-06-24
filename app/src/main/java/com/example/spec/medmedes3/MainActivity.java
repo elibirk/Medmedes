@@ -50,11 +50,23 @@ public class MainActivity extends AppCompatActivity {
         //access the database for authentication
         mAuth = FirebaseAuth.getInstance();
 
+        // Check if user is signed in (non-null), if not go to account creation/login.
+        if(mAuth.getCurrentUser()==null) {
+            //if the userid isn't available, take to account creation
+            Intent i = new Intent(getApplicationContext(), AccountCreation.class);
+
+            startActivity(i);
+            return; //return is necessary or else it keeps trying to run code which results in errors
+            //TODO: move code to onStart to prevent this?
+        }//end if
+        //We start in MainActivity instead of account creation because most users will usually be logged in
+
         //grab the average box so we can quickly calculate that
         avg = findViewById(R.id.tv_avg_num);
 
         //get database reference
         database =  FirebaseDatabase.getInstance();
+
         myRef = database.getReference("User").child(mAuth.getCurrentUser().getUid());
 
         //listen for changes in order to update the average
@@ -195,24 +207,6 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(i);
     }//end MRemind
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        //TODO: check to see if this can be removed? looks like it's not being used....
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        // Check if user is signed in (non-null), if not go to account creation/login.
-        if(mAuth.getCurrentUser()==null){
-            //if the username isn't available, take to account creation
-            Intent i = new Intent(getApplicationContext(), AccountCreation.class);
-
-            startActivity(i);
-        }//end if
-        //We start in MainActivity instead of account creation because most users will usually be logged in
-    }//end onStart
 
 
     public void onBackPressed() {//deal with backbutton
